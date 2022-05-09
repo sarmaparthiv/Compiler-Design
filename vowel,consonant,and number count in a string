@@ -1,0 +1,22 @@
+%{
+   #include<stdio.h>
+   int vow=0;
+   int cons=0;
+   int numb=0;
+%}
+
+%%
+[aeiouAEIOU] {vow++;}
+[a-zA-Z]     {cons++;}
+[0-9] {numb++;}
+%%
+int yywrap()
+{
+ return 1;
+}
+main()
+{
+printf("enter the string..at end press^d\n");
+yylex();
+printf("no of vowels=%d\n No of cons=%d\n no of numbers=%d",vow,cons,numb);
+}
