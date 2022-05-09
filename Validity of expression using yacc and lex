@@ -65,5 +65,5 @@ To Run(in linux)[make sure to install flex and bison]
 
 1)$ flex filename.l
 2)$ bison -d filename.y
-3)$ gcc lex.yy.c filename.tab.c
+3)$ gcc lex.yy.c filename.tab.c -ll
 4)$ ./a.out
