@@ -1,0 +1,69 @@
+**Q)1. Program to test the validity of a simple expression involving operators 
+ +, -, * and /. **
+ 
+ Ans:
+ 
+/*Yacc code */
+%{
+    #include<stdio.h>
+    #include<stdlib.h>
+%}
+
+%token ID NUMBER NL
+%left '+' '-'
+%left '*' '/'
+%%
+S : E NL { printf("\n Expression is valid"); exit(0);}
+   ;
+E : E '+' E
+  | E '-' E
+  | E '*' E
+  | E '/' E
+  | '(' E ')'
+  | ID
+  | NUMBER;
+%%
+
+int yyerror(){
+    printf("\n Invalid Expression");
+    return 0;
+}
+
+int main(){
+    printf("Enter an Expression: ");
+    yyparse();
+    return 0;
+}
+
+save as filename.y
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+/* Lex Code */
+
+%{
+	/* Definition section*/
+	#include "filename.tab.h"
+%}
+
+%%
+[0-9]+ {return NUMBER;}
+
+[a-zA-Z][a-zA-Z0-9_]* { return ID; }
+\t {;}
+\n	 { return NL; }   
+.	 { return yytext[0]; }
+%%
+
+int yywrap(){}
+/yywrap() function is responsible for checking whether there are any more inputs. If no, then yywrap() tells program to end./
+---------------------------------------------------------------------------------------------------------------------------
+
+save as filename.l
+
+To Run(in linux)[make sure to install flex and bison]
+
+1)$ flex filename.l
+2)$ bison -d filename.y
+3)$ gcc lex.yy.c filename.tab.c
+4)$ ./a.out
