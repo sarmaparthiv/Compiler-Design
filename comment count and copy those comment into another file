@@ -1,0 +1,28 @@
+Q4. Program to count the no of comment line in a given C program. Also 
+ eliminate them and copy that program into separate file 
+ 
+ ----------------------------------------------------------
+ 
+ %{
+ #include<stdio.h>
+ #include<string.h>
+ int count=0;
+%}
+
+%%
+"/"[^/]"/" {count++;}
+"//"[a-zA-Z0-9 \t]+ {count++;}
+%%
+
+main()
+{ yyin=fopen("new1.c","r");
+  yyout=fopen("new3.txt","w");
+  yylex();
+  fclose(yyout);
+  fclose(yyin);
+  printf("no of comment lines=%d\n",count);
+}
+int yywrap()
+{
+}
+-------------------------------------------------------
