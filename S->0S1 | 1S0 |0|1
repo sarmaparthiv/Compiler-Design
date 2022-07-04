@@ -1,0 +1,62 @@
+---- ------LEX part -------------
+
+
+%{
+#include "palindrome.tab.h"
+%}
+%%
+[0]+ { return ZERO; }
+[1]+ { return ONE; }
+\n { return NL ;}
+%%
+ 
+ SAVE AS palindrome.l
+ 
+ 
+--------- Yacc PART-----------
+ 
+ %{
+        #include<stdio.h>
+        #include<stdlib.h>
+        extern int yylex();
+%}
+
+%token ZERO ONE NL
+
+%%
+stmt : exp NL { printf("Valid Expression"); exit(0);}
+;
+exp : ZERO sm
+| ONE am
+;
+sm : sm ONE
+|
+;
+am : am ZERO
+|
+;
+%%
+int yyerror(char *msg)
+{
+printf("Invalid Expression\n");
+exit(0);
+}
+int main ()
+{
+printf("Enter the expression\n");
+yyparse();
+
+return 0;
+}
+int yywrap()
+{
+        return 1;
+}
+
+--------save as palindrom.y-------
+
+----flex palindrome.l
+--- bison -d palindrome.y
+----gcc lex.yy.c palindrome.tab.c -ll
+--- ./a.out
+
